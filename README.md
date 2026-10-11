@@ -13,11 +13,13 @@ data files are required.
 | `r0.py` | Next-generation matrix construction and spectral-radius R0 computation |
 | `sensitivity.py` | Latin hypercube sampling (n = 2,000) with PRCC analysis against R0 |
 | `scenarios.py` | Five scenarios: Baseline, Vector control, Warming +1°C, Warming +2°C, Import 4x |
-| `run_all.py` | Single-command pipeline that regenerates all four figures (300 dpi PNG) |
+| `run_all.py` | Single-command pipeline that regenerates all four figures (300 dpi PNG previews) |
+| `make_figures.py` | Publication-grade figure builder — same pipeline, journal styling (300 dpi TIFF + vector PDF, Okabe–Ito palette, no in-figure titles) |
 | `Figure1_r0_temperature.png` | R0 vs temperature curve |
 | `Figure2_prcc_sensitivity.png` | PRCC global-sensitivity bar chart |
 | `Figure3_scenario_peaks.png` | Scenario peak prevalence comparison |
 | `Figure4_incidence_timeseries.png` | Incidence time series |
+| `figures_publication/` | The four journal figures as 300 dpi TIFF and vector PDF (as submitted) |
 
 ## Requirements
 
@@ -40,8 +42,18 @@ python run_all.py
 ```
 
 This regenerates the four figures as 300 dpi PNG files in the current
-directory. (One Health / Elsevier accepts PNG at 300 dpi, so no
-format-conversion step is needed.)
+directory.
+
+For the journal-grade figures (300 dpi TIFF + vector PDF, matching the
+figures in the manuscript):
+
+```bash
+python make_figures.py
+```
+
+Output lands in `../02_Figures/` when run from the submission layout, or
+alongside the sources with a adjusted `OUT` path; the copies actually used
+in the manuscript are in `figures_publication/`.
 
 ## Verified numerical outputs
 
