@@ -1,0 +1,136 @@
+{
+  "task": "B - Nv/Nh scaling of the baseline-scenario outputs",
+  "method": "Baseline scenario (seasonal T(t)=22+7.8cos(2pi(t-200)/365) and annual import pulse), all parameters at baseline except nv_ratio; model.solve, t_span=(0,1095), daily output.",
+  "note_Nh": "Nh = 10,000 throughout, so peak_ih is directly the peak number of infectious humans for a 10,000-person population; peak_ih/10000 is the peak prevalence.",
+  "rows": [
+    {
+      "nv_ratio": 1.0,
+      "peak_ih": 5.349755767113329,
+      "peak_ih_per_10000_humans": 5.349755767113329,
+      "peak_day": 233.96764079544792,
+      "cum_infected": 0.01842403480633059,
+      "cum_check": 0.02623992182837477,
+      "R0_at_28C": 0.9259516263863412,
+      "R0_seasonal_mean_year1": 0.5378069179491692,
+      "peak_ratio_to_nv10": 0.003240789709912145,
+      "peak_pct_change_vs_nv10": -99.67592102900879
+    },
+    {
+      "nv_ratio": 2.0,
+      "peak_ih": 25.039882684572135,
+      "peak_ih_per_10000_humans": 25.039882684572135,
+      "peak_day": 268.2691284258049,
+      "cum_infected": 0.10361357501550861,
+      "cum_check": 0.11142946203755327,
+      "R0_at_28C": 1.3094933481369886,
+      "R0_seasonal_mean_year1": 0.7605738373017894,
+      "peak_ratio_to_nv10": 0.015168728755884084,
+      "peak_pct_change_vs_nv10": -98.4831271244116
+    },
+    {
+      "nv_ratio": 3.0,
+      "peak_ih": 119.53195702999892,
+      "peak_ih_per_10000_humans": 119.53195702999892,
+      "peak_day": 278.11792151352245,
+      "cum_infected": 0.31465818440355775,
+      "cum_check": 0.32247407142559975,
+      "R0_at_28C": 1.6037952622521776,
+      "R0_seasonal_mean_year1": 0.9315089065499875,
+      "peak_ratio_to_nv10": 0.07241039651376574,
+      "peak_pct_change_vs_nv10": -92.75896034862343
+    },
+    {
+      "nv_ratio": 5.0,
+      "peak_ih": 706.8886696724721,
+      "peak_ih_per_10000_humans": 706.8886696724721,
+      "peak_day": 267.47764759376605,
+      "cum_infected": 0.7983787699148669,
+      "cum_check": 0.8061946569369095,
+      "R0_at_28C": 2.0704907804763466,
+      "R0_seasonal_mean_year1": 1.2025728273039942,
+      "peak_ratio_to_nv10": 0.4282209555828314,
+      "peak_pct_change_vs_nv10": -57.17790444171686
+    },
+    {
+      "nv_ratio": 10.0,
+      "peak_ih": 1650.7568358264,
+      "peak_ih_per_10000_humans": 1650.7568358264,
+      "peak_day": 233.84820770682833,
+      "cum_infected": 0.9689444888264767,
+      "cum_check": 0.9767603758485224,
+      "R0_at_28C": 2.928116142518104,
+      "R0_seasonal_mean_year1": 1.7006948021146664,
+      "peak_ratio_to_nv10": 1.0,
+      "peak_pct_change_vs_nv10": 0.0
+    },
+    {
+      "nv_ratio": 15.0,
+      "peak_ih": 2036.1855277376997,
+      "peak_ih_per_10000_humans": 2036.1855277376997,
+      "peak_day": 219.7027390243774,
+      "cum_infected": 0.9698621421184157,
+      "cum_check": 0.9776780291404601,
+      "R0_at_28C": 3.5861952283879717,
+      "R0_seasonal_mean_year1": 2.0829172366922712,
+      "peak_ratio_to_nv10": 1.233486049275299,
+      "peak_pct_change_vs_nv10": 23.348604927529905
+    },
+    {
+      "nv_ratio": 20.0,
+      "peak_ih": 2257.6311163174746,
+      "peak_ih_per_10000_humans": 2257.6311163174746,
+      "peak_day": 211.34336728629626,
+      "cum_infected": 0.9705535626851544,
+      "cum_check": 0.9783694497071982,
+      "R0_at_28C": 4.140981560952693,
+      "R0_seasonal_mean_year1": 2.4051456546079883,
+      "peak_ratio_to_nv10": 1.3676339648093971,
+      "peak_pct_change_vs_nv10": 36.76339648093971
+    }
+  ],
+  "meta": {
+    "script": "run_scaling.py",
+    "random_seed": 20260816,
+    "n_samples": 7,
+    "run_date_utc": "2026-10-28T04:51:21+00:00",
+    "run_date_local": "2026-10-28T12:51:21+08:00",
+    "wall_seconds_total": 0.972,
+    "seconds_per_ode_solve": 0.12654,
+    "n_ode_solves": 8,
+    "t_span_days": [
+      0,
+      1095
+    ],
+    "n_output_points": 1096,
+    "output_resolution_days": 1.0,
+    "python": "3.13.12",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "host_cpus": 8,
+    "model_source": "../src/model.py (unmodified)",
+    "nv_values": [
+      1,
+      2,
+      3,
+      5,
+      10,
+      15,
+      20
+    ],
+    "src_sha256": {
+      "model.py": "8664b17fdfe05dd7c5ae904d628a045cc529007b5ca5ec0a795bcddc95a3db08",
+      "r0.py": "3891a2e68569747aaebf801c3e5849adc3786f6d05c81dc474c27729762411fe",
+      "sensitivity.py": "1a15820f734af00f003ddfaea24eea618bfb8acea6f6ea421c6c33bd61b6c060",
+      "scenarios.py": "105a33251bc8451e19307ac0fb31f112aeb922fd391492a6f8bacea84cef5034"
+    },
+    "src_numeric_recheck": {
+      "peak_ih_n1096": 1650.7568358264,
+      "peak_day_n1096": 233.84820770682833,
+      "cum_infected_n1096": 0.9689444888264767,
+      "peak_ih_default_grid_n1000": 1649.7774500788214,
+      "R0_at_28C": 2.928116142518104
+    },
+    "src_numeric_recheck_matches_run_values": true
+  }
+}

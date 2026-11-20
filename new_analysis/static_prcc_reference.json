@@ -1,0 +1,96 @@
+{
+  "source": "sensitivity.run() from ../src (recomputed, unchanged defaults)",
+  "estimator": "PRCC vs algebraic R0 at fixed T = 28 degC",
+  "param_names": [
+    "nv_ratio",
+    "beta_vh",
+    "beta_hv",
+    "mu_v",
+    "gamma_h",
+    "b",
+    "eip_days",
+    "sigma_h"
+  ],
+  "param_labels": [
+    "Nv/Nh",
+    "beta_vh",
+    "beta_hv",
+    "mu_v",
+    "gamma_h",
+    "b",
+    "1/sigma_v",
+    "sigma_h"
+  ],
+  "prcc": [
+    0.9544619326688739,
+    0.7748926565967023,
+    0.7623829622221925,
+    -0.7221229203808414,
+    -0.6389596862320741,
+    0.5726366998373478,
+    -0.35390724482793556,
+    0.00036339965537261504
+  ],
+  "p_value": [
+    0.0,
+    0.0,
+    0.0,
+    4.25e-322,
+    6.275460835341079e-230,
+    1.2344399776606743e-174,
+    4.396373276279813e-60,
+    0.9870416742124781
+  ],
+  "r0_min": 0.483833048171395,
+  "r0_max": 4.886684465513051,
+  "r0_median": 2.0604073306962656,
+  "n_samples": 2000,
+  "T": 28.0,
+  "rank": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "meta": {
+    "script": "make_static_reference.py",
+    "random_seed": 20260816,
+    "n_samples": 2000,
+    "run_date_utc": "2026-10-28T04:53:50+00:00",
+    "run_date_local": "2026-10-28T12:53:50+08:00",
+    "wall_seconds_total": 0.0,
+    "seconds_per_ode_solve": 0.0,
+    "n_ode_solves": 2000,
+    "t_span_days": [
+      0,
+      1095
+    ],
+    "n_output_points": 1096,
+    "output_resolution_days": 1.0,
+    "python": "3.13.12",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "host_cpus": 8,
+    "model_source": "../src/model.py (unmodified)",
+    "note": "no ODE solves; algebraic R0 only",
+    "src_sha256": {
+      "model.py": "8664b17fdfe05dd7c5ae904d628a045cc529007b5ca5ec0a795bcddc95a3db08",
+      "r0.py": "3891a2e68569747aaebf801c3e5849adc3786f6d05c81dc474c27729762411fe",
+      "sensitivity.py": "1a15820f734af00f003ddfaea24eea618bfb8acea6f6ea421c6c33bd61b6c060",
+      "scenarios.py": "105a33251bc8451e19307ac0fb31f112aeb922fd391492a6f8bacea84cef5034"
+    },
+    "src_numeric_recheck": {
+      "peak_ih_n1096": 1650.7568358264,
+      "peak_day_n1096": 233.84820770682833,
+      "cum_infected_n1096": 0.9689444888264767,
+      "peak_ih_default_grid_n1000": 1649.7774500788214,
+      "R0_at_28C": 2.928116142518104
+    },
+    "src_numeric_recheck_matches_run_values": true
+  }
+}

@@ -1,20 +1,54 @@
-"""Pipeline orchestrator: runs all analyses and generates 4 figures at 300 dpi.
+"""Pipeline orchestrator: runs all analyses and generates 5 figures at 300 dpi.
 
 Usage:
-    python run_all.py
+    python run_all.py                 # default seed 20260816
+    python run_all.py --seed 42       # alternative seed for the LHS-PRCC step
+    DENGUE_SEED=42 python run_all.py  # equivalent environment-variable form
 
 Output:
     Figure1_r0_temperature.png
     Figure2_prcc_sensitivity.png
     Figure3_scenario_peaks.png
     Figure4_incidence_timeseries.png
+    Figure5_prcc_designs.png
 """
+
+import argparse
+import json
+import os
+
+
+def _parse_args(argv=None):
+    """Parse command-line options (seed only)."""
+    parser = argparse.ArgumentParser(
+        description="Run the full dengue modelling pipeline and write 5 figures."
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help=(
+            "Pseudo-random seed for the LHS-PRCC analysis. Overrides the "
+            "DENGUE_SEED environment variable; the default (20260816) "
+            "reproduces the published results."
+        ),
+    )
+    return parser.parse_args(argv)
+
+
+# The seed must be fixed before ``model``/``sensitivity`` are imported, because
+# those modules resolve it once at import time (see config.py).  Parsing only
+# happens for ``python run_all.py``, never when this file is imported.
+_ARGS = _parse_args() if __name__ == "__main__" else None
+if _ARGS is not None and _ARGS.seed is not None:
+    os.environ["DENGUE_SEED"] = str(_ARGS.seed)
 
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+from config import SEED
 from model import baseline_params, solve, seasonal_temperature
 from r0 import compute_r0, r0_temperature_curve
 from sensitivity import run as run_sensitivity
@@ -144,10 +178,78 @@ def figure4_timeseries():
     return path
 
 
+def figure5_prcc_designs():
+    """Figure 5: PRCC under the static, dynamic and equal-width designs."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    na_dir = os.path.join(here, '..', 'new_analysis')
+    files = {'static': 'static_prcc_reference.json',
+             'dynamic': 'dynamic_prcc.json',
+             'equal': 'equalwidth_prcc.json'}
+    for name in files.values():
+        path = os.path.join(na_dir, name)
+        if not os.path.exists(path):
+            raise FileNotFoundError(
+                f"{path} not found; Figure 5 reads the archived PRCC tables "
+                f"written by the scripts in new_analysis/"
+            )
+    with open(os.path.join(na_dir, files['static']), encoding='utf-8') as fh:
+        static_raw = json.load(fh)
+    with open(os.path.join(na_dir, files['dynamic']), encoding='utf-8') as fh:
+        dynamic_raw = json.load(fh)
+    with open(os.path.join(na_dir, files['equal']), encoding='utf-8') as fh:
+        equal_raw = json.load(fh)
+
+    static = dict(zip(static_raw['param_names'], static_raw['prcc']))
+    dyn_rows = dynamic_raw['outputs']['peak_ih']['prcc_table']
+    dynamic = {r['param']: r['prcc'] for r in dyn_rows}
+    equal = {r['param']: r['prcc'] for r in equal_raw['outputs']['peak_ih']['prcc_table']}
+    order = [r['param'] for r in sorted(dyn_rows, key=lambda r: r['rank'])]
+
+    labels = {'nv_ratio': r'$N_v/N_h$', 'beta_vh': r'$\beta_{vh}$',
+              'beta_hv': r'$\beta_{hv}$', 'gamma_h': r'$\gamma_h$',
+              'b': r'$b$', 'mu_v': r'$\mu_v$',
+              'eip_days': r'$1/\sigma_v$', 'sigma_h': r'$\sigma_h$'}
+
+    fig, ax = plt.subplots(figsize=(9, 5.2))
+    ypos = list(range(len(order)))
+    for y, key in zip(ypos, order):
+        vals = [static[key], dynamic[key], equal[key]]
+        ax.plot([min(vals), max(vals)], [y, y], color='0.6', linewidth=0.9,
+                zorder=1)
+    ax.axvline(0.0, color='0.4', linewidth=0.8, zorder=0)
+    ax.plot([static[k] for k in order], [y + 0.20 for y in ypos], 'o',
+            markersize=6.5, markerfacecolor='white', markeredgecolor='#4e79a7',
+            markeredgewidth=1.2, linestyle='none', label='Static, $R_0$ at 28 \u00b0C',
+            zorder=5)
+    ax.plot([dynamic[k] for k in order], ypos, 's', markersize=6.4,
+            color='#4e79a7', linestyle='none', label='Dynamic, peak', zorder=4)
+    ax.plot([equal[k] for k in order], [y - 0.20 for y in ypos], '^',
+            markersize=6.4, color='#E15759', linestyle='none',
+            label='Equal-width, peak', zorder=3)
+
+    ax.set_yticks(ypos)
+    ax.set_yticklabels([labels.get(k, k) for k in order])
+    ax.invert_yaxis()
+    ax.set_xlim(-1.06, 1.06)
+    ax.set_xlabel('Partial rank correlation coefficient', fontsize=13)
+    ax.set_title('Partial rank correlation coefficients under three designs',
+                 fontsize=14)
+    ax.legend(fontsize=11, frameon=False, loc='upper left')
+    ax.grid(True, alpha=0.3, axis='x')
+
+    fig.tight_layout()
+    path = f'{OUTPUT_DIR}/Figure5_prcc_designs.png'
+    fig.savefig(path, dpi=300)
+    plt.close(fig)
+    print(f"  -> {path}")
+    return path
+
+
 def main():
     print("=" * 60)
     print("Dengue SEIR/SEI Framework - Full Pipeline")
     print("=" * 60)
+    print(f"Random seed: {SEED}")
 
     print("\n[1/5] Computing R0-temperature curve...")
     params = baseline_params()
@@ -172,6 +274,7 @@ def main():
     figure2_prcc()
     figure3_scenario_peaks()
     figure4_timeseries()
+    figure5_prcc_designs()
 
     print("\n[5/5] Done. All figures generated at 300 dpi.")
     print("=" * 60)

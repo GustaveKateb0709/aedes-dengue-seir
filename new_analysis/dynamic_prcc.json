@@ -1,0 +1,365 @@
+{
+  "task": "A - PRCC of dynamic model outputs (baseline scenario)",
+  "method": "LHS (sensitivity.sample_lhs, n=2000, seed=20260816) over the 8 published parameter ranges; each sample propagated through the full ODE model (model.solve, t_span=(0,1095), daily output). PRCC = Marino et al. (2008): rank-transform inputs and output, regress each on the remaining 7 ranked inputs, Pearson correlation of residuals. p-values from a two-sided t-test with df = n - 2 - (k-1) = n - 9.",
+  "temperature_handling": "b and sigma_v keep their temperature dependence; the sampled values act as level scalings relative to the 28 degC reference value (b_ref=0.214700 /day, sigma_v_ref=0.235217 /day = 1/4.2514 d). This avoids the constant-parameter substitution used in the static analysis.",
+  "cumulative_metric": "cum_infected = 1 - Sh(1095)/Nh (proportion ever infected, attack-rate analogue). Cross-check (Eh+Ih+Rh)(1095)/Nh differs only by the imported cases injected directly into Ih; mean absolute difference = 7.82e-03.",
+  "peak_definition": "peak_ih / peak_day from a 1096-point daily grid, then refined by a 3-point parabola around the argmax (needed to break the 1-day quantisation of peak_day in the rank transform). Peak value bias of the raw grid relative to a 1000-point grid is < 0.5%.",
+  "baseline_reference_run": {
+    "peak_ih": 1650.7568358264,
+    "peak_day": 233.84820770682833,
+    "cum_infected": 0.9689444888264767,
+    "cum_check": 0.9767603758485224
+  },
+  "outputs": {
+    "peak_ih": {
+      "prcc_table": [
+        {
+          "param": "nv_ratio",
+          "prcc": 0.9501518570776518,
+          "p_value": 0.0,
+          "p_value_unadjusted": 0.0,
+          "abs_prcc": 0.9501518570776518,
+          "t_stat": 135.97840552604774,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 1
+        },
+        {
+          "param": "beta_vh",
+          "prcc": 0.7573477739036185,
+          "p_value": 0.0,
+          "p_value_unadjusted": 0.0,
+          "abs_prcc": 0.7573477739036185,
+          "t_stat": 51.74995607334083,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 2
+        },
+        {
+          "param": "beta_hv",
+          "prcc": 0.7367228465561403,
+          "p_value": 0.0,
+          "p_value_unadjusted": 0.0,
+          "abs_prcc": 0.7367228465561403,
+          "t_stat": 48.614734963867676,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 3
+        },
+        {
+          "param": "gamma_h",
+          "prcc": -0.7294795133911065,
+          "p_value": 0.0,
+          "p_value_unadjusted": 0.0,
+          "abs_prcc": 0.7294795133911065,
+          "t_stat": -47.5872862186181,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 4
+        },
+        {
+          "param": "b",
+          "prcc": 0.5533444237225821,
+          "p_value": 2.909394750014553e-160,
+          "p_value_unadjusted": 8.079496162472658e-161,
+          "abs_prcc": 0.5533444237225821,
+          "t_stat": 29.64223228750373,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 5
+        },
+        {
+          "param": "mu_v",
+          "prcc": -0.4762351945616708,
+          "p_value": 2.3353005599707437e-113,
+          "p_value_unadjusted": 9.475561989833793e-114,
+          "abs_prcc": 0.4762351945616708,
+          "t_stat": -24.166356817831698,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 6
+        },
+        {
+          "param": "eip_days",
+          "prcc": -0.3935360587759494,
+          "p_value": 8.095146421081992e-75,
+          "p_value_unadjusted": 4.484335277980729e-75,
+          "abs_prcc": 0.3935360587759494,
+          "t_stat": -19.101108191144057,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 7
+        },
+        {
+          "param": "sigma_h",
+          "prcc": 0.26269298692802623,
+          "p_value": 8.239204290497318e-33,
+          "p_value_unadjusted": 6.403903446972244e-33,
+          "abs_prcc": 0.26269298692802623,
+          "t_stat": 12.148175071783442,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 8
+        }
+      ],
+      "n_dropped_nonfinite": 0
+    },
+    "peak_day": {
+      "prcc_table": [
+        {
+          "param": "nv_ratio",
+          "prcc": -0.3993310919246719,
+          "p_value": 3.507613206762537e-77,
+          "p_value_unadjusted": 1.906331706508274e-77,
+          "abs_prcc": 0.3993310919246719,
+          "t_stat": -19.435286072824027,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 1
+        },
+        {
+          "param": "beta_hv",
+          "prcc": -0.24668840436015496,
+          "p_value": 5.154386234697394e-29,
+          "p_value_unadjusted": 4.1303835449845333e-29,
+          "abs_prcc": 0.24668840436015496,
+          "t_stat": -11.358424081219384,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 2
+        },
+        {
+          "param": "beta_vh",
+          "prcc": -0.24330282324044633,
+          "p_value": 3.0275666163311205e-28,
+          "p_value_unadjusted": 2.441125290172232e-28,
+          "abs_prcc": 0.24330282324044633,
+          "t_stat": -11.19265872037088,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 3
+        },
+        {
+          "param": "sigma_h",
+          "prcc": -0.14392625005558154,
+          "p_value": 1.0828593646631379e-10,
+          "p_value_unadjusted": 1.0046730777224494e-10,
+          "abs_prcc": 0.14392625005558154,
+          "t_stat": -6.489646442790828,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 4
+        },
+        {
+          "param": "eip_days",
+          "prcc": 0.1273036601477898,
+          "p_value": 1.178053999218028e-08,
+          "p_value_unadjusted": 1.1107288068775936e-08,
+          "abs_prcc": 0.1273036601477898,
+          "t_stat": 5.726964414950959,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 5
+        },
+        {
+          "param": "b",
+          "prcc": -0.1222269513443774,
+          "p_value": 4.407546884332712e-08,
+          "p_value_unadjusted": 4.174446048838618e-08,
+          "abs_prcc": 0.1222269513443774,
+          "t_stat": -5.49504358195561,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 6
+        },
+        {
+          "param": "gamma_h",
+          "prcc": 0.05537242701836613,
+          "p_value": 0.013423221262951705,
+          "p_value_unadjusted": 0.01326098880548665,
+          "abs_prcc": 0.05537242701836613,
+          "t_stat": 2.47454871880535,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 7
+        },
+        {
+          "param": "mu_v",
+          "prcc": 0.03170312677857926,
+          "p_value": 0.15712970423711142,
+          "p_value_unadjusted": 0.15640201869373974,
+          "abs_prcc": 0.03170312677857926,
+          "t_stat": 1.4153247109337095,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 8
+        }
+      ],
+      "n_dropped_nonfinite": 0
+    },
+    "cum_infected": {
+      "prcc_table": [
+        {
+          "param": "nv_ratio",
+          "prcc": 0.9553424110792212,
+          "p_value": 0.0,
+          "p_value_unadjusted": 0.0,
+          "abs_prcc": 0.9553424110792212,
+          "t_stat": 144.25658343633467,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 1
+        },
+        {
+          "param": "beta_vh",
+          "prcc": 0.7766882805931368,
+          "p_value": 0.0,
+          "p_value_unadjusted": 0.0,
+          "abs_prcc": 0.7766882805931368,
+          "t_stat": 55.02005315338429,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 2
+        },
+        {
+          "param": "beta_hv",
+          "prcc": 0.7576976534494188,
+          "p_value": 0.0,
+          "p_value_unadjusted": 0.0,
+          "abs_prcc": 0.7576976534494188,
+          "t_stat": 51.806073311721484,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 3
+        },
+        {
+          "param": "mu_v",
+          "prcc": -0.6450009572606348,
+          "p_value": 7.709942986094306e-235,
+          "p_value_unadjusted": 1.1712968947766145e-235,
+          "abs_prcc": 0.6450009572606348,
+          "t_stat": -37.66164806330534,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 4
+        },
+        {
+          "param": "b",
+          "prcc": 0.5714529732556006,
+          "p_value": 3.693576169262158e-173,
+          "p_value_unadjusted": 9.241368052083358e-174,
+          "abs_prcc": 0.5714529732556006,
+          "t_stat": 31.071783989657135,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 5
+        },
+        {
+          "param": "gamma_h",
+          "prcc": -0.5587183529908726,
+          "p_value": 5.2422381284125e-164,
+          "p_value_unadjusted": 1.4123710134508588e-164,
+          "abs_prcc": 0.5587183529908726,
+          "t_stat": -30.0598500800111,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 6
+        },
+        {
+          "param": "eip_days",
+          "prcc": -0.41006899874819214,
+          "p_value": 1.0960191717262916e-81,
+          "p_value_unadjusted": 5.743881876477006e-82,
+          "abs_prcc": 0.41006899874819214,
+          "t_stat": -20.06188682046747,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 7
+        },
+        {
+          "param": "sigma_h",
+          "prcc": 0.11685142050004783,
+          "p_value": 1.6836019378769757e-07,
+          "p_value_unadjusted": 1.6018681207175627e-07,
+          "abs_prcc": 0.11685142050004783,
+          "t_stat": 5.249948442862773,
+          "df": 1991,
+          "n_eff": 2000,
+          "rank": 8
+        }
+      ],
+      "n_dropped_nonfinite": 0
+    }
+  },
+  "output_distributions": {
+    "peak_ih": {
+      "min": 2.4818737685805137,
+      "p05": 5.275259514732257,
+      "median": 829.512280423474,
+      "p95": 2282.891560637157,
+      "max": 3196.324534416778,
+      "mean": 920.9515627842114
+    },
+    "peak_day": {
+      "min": 202.88127678770584,
+      "p05": 219.54916068319076,
+      "median": 251.07115794687894,
+      "p95": 274.59535665676117,
+      "max": 281.9317766328843,
+      "mean": 249.71996980101952
+    },
+    "cum_infected": {
+      "min": 0.0026929845841890954,
+      "p05": 0.015148315769506527,
+      "median": 0.8325983563923047,
+      "p95": 0.9698610680680029,
+      "max": 0.9721296843116811,
+      "mean": 0.6363697511426833
+    },
+    "cum_check_minus_cum_infected": {
+      "mean": 0.00781588702204401,
+      "max_abs": 0.007815887022051382
+    }
+  },
+  "n_failed_solves": 0,
+  "meta": {
+    "script": "run_dynamic_prcc.py",
+    "random_seed": 20260816,
+    "n_samples": 2000,
+    "run_date_utc": "2026-10-28T04:51:16+00:00",
+    "run_date_local": "2026-10-28T12:51:16+08:00",
+    "wall_seconds_total": 64.324,
+    "seconds_per_ode_solve": 0.11197,
+    "n_ode_solves": 2000,
+    "t_span_days": [
+      0,
+      1095
+    ],
+    "n_output_points": 1096,
+    "output_resolution_days": 1.0,
+    "python": "3.13.12",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "host_cpus": 8,
+    "model_source": "../src/model.py (unmodified)",
+    "parallel_processes": 7,
+    "b_ref_28C": 0.2147,
+    "sigma_v_ref_28C": 0.235216553008533,
+    "eip_ref_days": 4.251401473278638,
+    "src_sha256": {
+      "model.py": "8664b17fdfe05dd7c5ae904d628a045cc529007b5ca5ec0a795bcddc95a3db08",
+      "r0.py": "3891a2e68569747aaebf801c3e5849adc3786f6d05c81dc474c27729762411fe",
+      "sensitivity.py": "1a15820f734af00f003ddfaea24eea618bfb8acea6f6ea421c6c33bd61b6c060",
+      "scenarios.py": "105a33251bc8451e19307ac0fb31f112aeb922fd391492a6f8bacea84cef5034"
+    },
+    "src_numeric_recheck": {
+      "peak_ih_n1096": 1650.7568358264,
+      "peak_day_n1096": 233.84820770682833,
+      "cum_infected_n1096": 0.9689444888264767,
+      "peak_ih_default_grid_n1000": 1649.7774500788214,
+      "R0_at_28C": 2.928116142518104
+    },
+    "src_numeric_recheck_matches_run_values": true
+  }
+}

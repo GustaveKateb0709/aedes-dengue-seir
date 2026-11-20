@@ -1,0 +1,149 @@
+{
+  "task": "C - biting-rate clamp sensitivity",
+  "method": "Baseline scenario, 1095 days; model.biting_rate replaced at run time by each variant (src/model.py unmodified). R0(T)=1 critical temperature by bisection on [10, 35] degC (200 iterations, tol 1e-10); null if R0(T)-1 does not change sign.",
+  "formula": "b(T) = 0.0043*T + 0.0943",
+  "clamp_thresholds": {
+    "T_lower_degC": 19.930232558139533,
+    "T_upper_degC": 31.558139534883725
+  },
+  "temperature_regime_stats": {
+    "n_steps": 3650,
+    "T_min": 14.20028891889313,
+    "T_max": 29.8,
+    "frac_T_below_21": 0.4602739726027397,
+    "frac_T_below_T_lo_1993": 0.41643835616438357,
+    "frac_T_above_T_hi_3163": 0.0,
+    "n_days_below_21": 1680,
+    "T_lo_threshold": 19.930232558139533,
+    "T_hi_threshold": 31.558139534883725,
+    "b_linear_min": 0.15536124235124044,
+    "b_linear_max": 0.22244,
+    "frac_b_lower_clamp": 0.41643835616438357,
+    "frac_b_upper_clamp": 0.0,
+    "mean_b_published": 0.1955041751991664,
+    "mean_b_floor_only": 0.18889999999999998,
+    "mean_b_unclamped": 0.18889999999999998
+  },
+  "numerical_noise_floor": {
+    "peak_ih_default_minus_tight": -1.5143123164307326e-06,
+    "peak_ih_relative": 9.173442651065197e-10,
+    "cum_default_minus_tight": 1.1652123710348405e-11,
+    "peak_day_default_minus_tight": -1.1282878631391213e-07,
+    "default_tolerances": {
+      "rtol": 1e-08,
+      "atol": 1e-10
+    },
+    "tight_tolerances": {
+      "rtol": 1e-10,
+      "atol": 1e-12
+    }
+  },
+  "interpretation": "The lower clamp is active 41.6% of the year, but only inside the subcritical winter window: R0(14.2 degC) is 0.409 with the clamp and 0.353 without it, both far below 1. Removing the clamp therefore shifts peak Ih by 3.7e-6 persons (2.2e-7 %) and the cumulative attack rate by 3.4e-6 - seven orders of magnitude below the precision at which the results are reported, i.e. the annual trajectory is insensitive to the clamp. Its only measurable consequence is on the threshold: R0(T)=1 at 19.39 degC with the clamp vs 19.46 degC without. The upper clamp is never active under baseline seasonal forcing (T_max = 29.8 degC < 31.56 degC), so it has no effect at all.",
+  "variants": [
+    {
+      "variant": "published_clip_0.18_0.23",
+      "peak_ih": 1650.7568358264,
+      "peak_day": 233.84820770682833,
+      "cum_infected": 0.9689444888264767,
+      "cum_check": 0.9767603758485224,
+      "R0_at_1C": 0.031482543837054906,
+      "critical_temperature_R0_eq_1": 19.387243723858774,
+      "R0_probe": {
+        "14.2": 0.4091777888195412,
+        "19.93": 1.087986687420596,
+        "21.0": 1.3070464572122695,
+        "28.0": 2.9281161425181046,
+        "29.8": 3.232086204020591
+      },
+      "peak_abs_change_vs_published": 0.0,
+      "peak_pct_change_vs_published": 0.0,
+      "cum_abs_change_vs_published": 0.0,
+      "cum_pct_change_vs_published": 0.0,
+      "peak_day_change_vs_published": 0.0,
+      "peak_change_over_noise_floor": 0.0,
+      "classification": "negligible"
+    },
+    {
+      "variant": "floor_only_max0",
+      "peak_ih": 1650.7568321590759,
+      "peak_day": 233.84820826870492,
+      "cum_infected": 0.9689411207217775,
+      "cum_check": 0.9767570077438231,
+      "R0_at_1C": 0.017245437901853407,
+      "critical_temperature_R0_eq_1": 19.45916934674642,
+      "R0_probe": {
+        "14.2": 0.35316589595002174,
+        "19.93": 1.08798064305011,
+        "21.0": 1.3070464572122695,
+        "28.0": 2.9281161425181046,
+        "29.8": 3.232086204020591
+      },
+      "peak_abs_change_vs_published": -3.6673241083917674e-06,
+      "peak_pct_change_vs_published": -2.2216016803966454e-07,
+      "cum_abs_change_vs_published": -3.3681046991418384e-06,
+      "cum_pct_change_vs_published": -0.0003476055375650766,
+      "peak_day_change_vs_published": 5.618765896997502e-07,
+      "peak_change_over_noise_floor": 2.4217752630023712,
+      "classification": "negligible"
+    },
+    {
+      "variant": "unclamped_linear",
+      "peak_ih": 1650.7568321590759,
+      "peak_day": 233.84820826870492,
+      "cum_infected": 0.9689411207217775,
+      "cum_check": 0.9767570077438231,
+      "R0_at_1C": 0.017245437901853407,
+      "critical_temperature_R0_eq_1": 19.45916934674642,
+      "R0_probe": {
+        "14.2": 0.35316589595002174,
+        "19.93": 1.08798064305011,
+        "21.0": 1.3070464572122695,
+        "28.0": 2.9281161425181046,
+        "29.8": 3.232086204020591
+      },
+      "peak_abs_change_vs_published": -3.6673241083917674e-06,
+      "peak_pct_change_vs_published": -2.2216016803966454e-07,
+      "cum_abs_change_vs_published": -3.3681046991418384e-06,
+      "cum_pct_change_vs_published": -0.0003476055375650766,
+      "peak_day_change_vs_published": 5.618765896997502e-07,
+      "peak_change_over_noise_floor": 2.4217752630023712,
+      "classification": "negligible"
+    }
+  ],
+  "meta": {
+    "script": "run_clamp.py",
+    "random_seed": 20260816,
+    "n_samples": 3,
+    "run_date_utc": "2026-10-28T04:53:37+00:00",
+    "run_date_local": "2026-10-28T12:53:37+08:00",
+    "wall_seconds_total": 0.805,
+    "seconds_per_ode_solve": 0.12583,
+    "n_ode_solves": 4,
+    "t_span_days": [
+      0,
+      1095
+    ],
+    "n_output_points": 1096,
+    "output_resolution_days": 1.0,
+    "python": "3.13.12",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "host_cpus": 8,
+    "model_source": "../src/model.py (unmodified)",
+    "src_sha256": {
+      "model.py": "8664b17fdfe05dd7c5ae904d628a045cc529007b5ca5ec0a795bcddc95a3db08",
+      "r0.py": "3891a2e68569747aaebf801c3e5849adc3786f6d05c81dc474c27729762411fe",
+      "sensitivity.py": "1a15820f734af00f003ddfaea24eea618bfb8acea6f6ea421c6c33bd61b6c060",
+      "scenarios.py": "105a33251bc8451e19307ac0fb31f112aeb922fd391492a6f8bacea84cef5034"
+    },
+    "src_numeric_recheck": {
+      "peak_ih_n1096": 1650.7568358264,
+      "peak_day_n1096": 233.84820770682833,
+      "cum_infected_n1096": 0.9689444888264767,
+      "peak_ih_default_grid_n1000": 1649.7774500788214,
+      "R0_at_28C": 2.928116142518104
+    },
+    "src_numeric_recheck_matches_run_values": true
+  }
+}

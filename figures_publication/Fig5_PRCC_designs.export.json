@@ -1,0 +1,48 @@
+{
+ "notice": "Export completed with explicit settings. This report does not establish visual, accessibility, scientific-integrity, or journal-submission compliance.",
+ "outputs": [
+  {
+   "format": "tiff",
+   "kind": "raster",
+   "path": "02_Figures/Fig5_PRCC_designs.tiff",
+   "size_bytes": 115712
+  },
+  {
+   "format": "pdf",
+   "kind": "vector-container",
+   "path": "02_Figures/Fig5_PRCC_designs.pdf",
+   "size_bytes": 31382
+  }
+ ],
+ "provenance": {
+  "designs": "static R0@28C / dynamic peak / equal-width peak",
+  "n_samples": 2000,
+  "seed": 20260816,
+  "source": "new_analysis/static_prcc_reference.json, dynamic_prcc.json, equalwidth_prcc.json"
+ },
+ "schema_version": "1.0",
+ "settings": {
+  "bbox_inches": null,
+  "dpi": 300.0,
+  "facecolor": "white",
+  "figure_size_inches": [
+   6.9,
+   4.2
+  ],
+  "font_mode": "truetype",
+  "formats": [
+   "tiff",
+   "pdf"
+  ],
+  "pad_inches": 0.1,
+  "tiff_rgb": true,
+  "transparent": false
+ },
+ "versions": {
+  "matplotlib": "3.11.1",
+  "pillow": "12.3.0"
+ },
+ "warnings": [
+  "tiff: Matplotlib does not support savefig metadata for this format; metadata remains in the optional manifest."
+ ]
+}

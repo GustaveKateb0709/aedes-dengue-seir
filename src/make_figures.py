@@ -1,16 +1,28 @@
-"""Restyled figure builder for the Ecological Modelling transfer.
+"""Publication figure builder for the dengue transmission framework.
 
-Standards: scientific-visualization skill (style_context default + Okabe-Ito),
-figure-qa rules (no in-figure titles, U+2212, TIF LZW RGB + PDF, 300 dpi).
-Data provenance: model.py / r0.py / sensitivity.py / scenarios.py, seed 20260816.
+Standards: publication preset (style_context "default" + Okabe-Ito),
+no in-figure titles, U+2212 minus sign, TIF LZW RGB + PDF at 300 dpi.
+Data provenance: model.py / r0.py / sensitivity.py / scenarios.py, seed 20260816,
+plus the archived PRCC tables in ../new_analysis for Figure 5.
+
+Portability: this script imports only local modules from this directory plus
+matplotlib/numpy/scipy.  No private paths or external style assets are needed:
+
+    python make_figures.py                 # auto-detect the output directory
+    python make_figures.py --outdir figs   # explicit output directory
+
+Auto-detection: if this directory sits inside the manuscript package
+(``.../04_Code_and_Data/src``), figures are written to ``.../02_Figures``;
+otherwise they go to ``./figures`` next to this script.  The environment
+variable ``DENGUE_FIG_DIR`` overrides both.
 """
-import os, sys
+import argparse
+import json
+import os
+import sys
 
 SRC = os.path.dirname(os.path.abspath(__file__))
-SKILL = "/Users/wangtianyu/.workbuddy/skills/scientific-visualization"
 sys.path.insert(0, SRC)
-sys.path.insert(0, os.path.join(SKILL, "scripts"))
-sys.path.insert(0, os.path.join(SKILL, "assets"))
 
 import matplotlib
 matplotlib.use("Agg")
@@ -25,12 +37,119 @@ from sensitivity import run as run_sensitivity
 from scenarios import run_all_scenarios, get_scenario
 from model import solve
 
-OUT = os.path.abspath(os.path.join(SRC, "..", "..", "02_Figures"))
-os.makedirs(OUT, exist_ok=True)
+
+def resolve_out_dir(cli_outdir=None):
+    """Return the directory the figures are written to."""
+    if cli_outdir:
+        return os.path.abspath(cli_outdir)
+    env = os.environ.get("DENGUE_FIG_DIR")
+    if env:
+        return os.path.abspath(env)
+    if os.path.basename(os.path.dirname(SRC)) == "04_Code_and_Data":
+        # Standard manuscript layout: 04_Code_and_Data/src -> 02_Figures
+        return os.path.abspath(os.path.join(SRC, "..", "..", "02_Figures"))
+    # Extracted archive layout: <root>/src -> <root>/figures
+    return os.path.join(os.path.dirname(SRC), "figures")
+
+
+OUT = resolve_out_dir()
 
 VERIFY = {}
 
-def build():
+PRCC_LABELS = {"nv_ratio": "$N_v/N_h$", "beta_vh": r"$\beta_{vh}$",
+               "beta_hv": r"$\beta_{hv}$", "gamma_h": r"$\gamma_h$",
+               "b": "$b$", "mu_v": r"$\mu_v$",
+               "eip_days": r"$1/\sigma_v$", "sigma_h": r"$\sigma_h$"}
+
+
+def load_prcc_designs():
+    """Read the archived PRCC tables for the static, dynamic and equal-width designs.
+
+    Returns (static, dynamic, equal, order) where each design maps a parameter
+    key to its PRCC and ``order`` lists the keys by dynamic-design rank.
+    """
+    na_dir = os.path.abspath(os.path.join(SRC, "..", "new_analysis"))
+    needed = ["static_prcc_reference.json", "dynamic_prcc.json",
+              "equalwidth_prcc.json"]
+    for name in needed:
+        path = os.path.join(na_dir, name)
+        if not os.path.exists(path):
+            raise FileNotFoundError(
+                f"{path} not found; Figure 5 needs the archived PRCC tables "
+                f"written by the scripts in new_analysis/"
+            )
+    with open(os.path.join(na_dir, "static_prcc_reference.json"), encoding="utf-8") as fh:
+        static_raw = json.load(fh)
+    with open(os.path.join(na_dir, "dynamic_prcc.json"), encoding="utf-8") as fh:
+        dynamic_raw = json.load(fh)
+    with open(os.path.join(na_dir, "equalwidth_prcc.json"), encoding="utf-8") as fh:
+        equal_raw = json.load(fh)
+    static = dict(zip(static_raw["param_names"], static_raw["prcc"]))
+    dyn_rows = dynamic_raw["outputs"]["peak_ih"]["prcc_table"]
+    eq_rows = equal_raw["outputs"]["peak_ih"]["prcc_table"]
+    dynamic = {r["param"]: r["prcc"] for r in dyn_rows}
+    equal = {r["param"]: r["prcc"] for r in eq_rows}
+    order = [r["param"] for r in sorted(dyn_rows, key=lambda r: r["rank"])]
+    return static, dynamic, equal, order
+
+
+def fig5_prcc_designs(out_dir=None):
+    """Figure 5: PRCC under the static, dynamic and equal-width designs."""
+    out = resolve_out_dir(out_dir)
+    os.makedirs(out, exist_ok=True)
+    static, dynamic, equal, order = load_prcc_designs()
+    ypos = list(range(len(order)))
+
+    with style_context("default", palette_name="okabe_ito_on_white"):
+        fig, ax = plt.subplots(figsize=(6.9, 4.2), layout="constrained")
+        # Vertical dodge inside each row (triangle above, square on the row
+        # line, circle below) so that coincident estimates stay visible.
+        DY = {"tri": -0.20, "sq": 0.0, "circ": 0.20}
+        for y, key in zip(ypos, order):
+            vals = [static[key], dynamic[key], equal[key]]
+            ax.plot([min(vals), max(vals)], [y, y], color="0.60",
+                    linewidth=0.9, zorder=1, solid_capstyle="round")
+        ax.axvline(0.0, color="#555555", linewidth=0.8, zorder=0)
+        ax.plot([static[k] for k in order], [y + DY["circ"] for y in ypos],
+                linestyle="none", marker="o", markersize=6.3,
+                markerfacecolor="white", markeredgecolor="#0072B2",
+                markeredgewidth=1.1,
+                label="Static, $R_0$ at 28 \u00b0C", zorder=5)
+        ax.plot([dynamic[k] for k in order], [y + DY["sq"] for y in ypos],
+                linestyle="none", marker="s", markersize=6.2,
+                color="#0072B2", label="Dynamic, peak", zorder=4)
+        ax.plot([equal[k] for k in order], [y + DY["tri"] for y in ypos],
+                linestyle="none", marker="^", markersize=6.2,
+                color="#D55E00", label="Equal-width, peak", zorder=3)
+        ax.set_yticks(ypos)
+        ax.set_yticklabels([PRCC_LABELS.get(k, k) for k in order])
+        ax.invert_yaxis()
+        ax.set_xlim(-1.06, 1.06)
+        ax.set_xticks([-1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 1.0])
+        ax.set_xticklabels([f"{v:.2f}".replace("-", "\u2212")
+                            for v in ax.get_xticks()])
+        ax.set_xlabel("Partial rank correlation coefficient")
+        ax.legend(frameon=False, fontsize=7.5, loc="upper left",
+                  handletextpad=0.4, borderaxespad=0.3)
+        export_figure(fig, os.path.join(out, "Fig5_PRCC_designs"),
+                      formats=["tiff", "pdf"], dpi=300, bbox_inches=None,
+                      tiff_rgb=True,
+                      provenance={
+                          "source": ("new_analysis/static_prcc_reference.json, "
+                                     "dynamic_prcc.json, equalwidth_prcc.json"),
+                          "designs": "static R0@28C / dynamic peak / equal-width peak",
+                          "n_samples": 2000,
+                          "seed": 20260816,
+                      },
+                      write_manifest=True)
+        plt.close(fig)
+
+
+def build(out_dir=None):
+    global OUT
+    OUT = resolve_out_dir(out_dir)
+    os.makedirs(OUT, exist_ok=True)
+    print(f"Writing figures to: {OUT}")
     params = baseline_params()
 
     # ---- Figure 1: R0 vs temperature -------------------------------------
@@ -150,8 +269,22 @@ def build():
                             write_manifest=True)
         plt.close(fig)
 
+    # ---- Figure 5: PRCC under three designs ------------------------------
+    fig5_prcc_designs(out_dir=OUT)
+
+
 if __name__ == "__main__":
-    build()
+    parser = argparse.ArgumentParser(
+        description="Build Figures 1-5 (300 dpi TIF + PDF)."
+    )
+    parser.add_argument(
+        "--outdir",
+        default=None,
+        help="output directory (default: auto-detected; env DENGUE_FIG_DIR wins over the default)",
+    )
+    args = parser.parse_args()
+
+    build(out_dir=args.outdir)
     print("\n===== VERIFY vs manuscript claims =====")
     print("R0(28C) =", round(VERIFY["r0_28"], 3), "  claim: 2.93")
     for T, v in VERIFY["r0_curve"].items():

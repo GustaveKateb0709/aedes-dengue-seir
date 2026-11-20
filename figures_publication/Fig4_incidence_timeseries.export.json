@@ -1,0 +1,55 @@
+{
+ "notice": "Export completed with explicit settings. This report does not establish visual, accessibility, scientific-integrity, or journal-submission compliance.",
+ "outputs": [
+  {
+   "format": "tiff",
+   "kind": "raster",
+   "path": "02_Figures/Fig4_incidence_timeseries.tiff",
+   "size_bytes": 88876
+  },
+  {
+   "format": "pdf",
+   "kind": "vector-container",
+   "path": "02_Figures/Fig4_incidence_timeseries.pdf",
+   "size_bytes": 20644
+  }
+ ],
+ "provenance": {
+  "series": {
+   "Baseline": {
+    "peak": 1649.8,
+    "peak_day": 233.0
+   },
+   "Vector control": {
+    "peak": 119.5,
+    "peak_day": 278.0
+   }
+  },
+  "source": "scenarios.get_scenario + model.solve; seed 20260816"
+ },
+ "schema_version": "1.0",
+ "settings": {
+  "bbox_inches": null,
+  "dpi": 300.0,
+  "facecolor": "white",
+  "figure_size_inches": [
+   5.511811023622047,
+   3.1496062992125986
+  ],
+  "font_mode": "truetype",
+  "formats": [
+   "tiff",
+   "pdf"
+  ],
+  "pad_inches": 0.1,
+  "tiff_rgb": true,
+  "transparent": false
+ },
+ "versions": {
+  "matplotlib": "3.11.1",
+  "pillow": "12.3.0"
+ },
+ "warnings": [
+  "tiff: Matplotlib does not support savefig metadata for this format; metadata remains in the optional manifest."
+ ]
+}

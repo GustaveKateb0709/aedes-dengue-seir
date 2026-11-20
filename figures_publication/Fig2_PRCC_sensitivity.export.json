@@ -1,0 +1,55 @@
+{
+ "notice": "Export completed with explicit settings. This report does not establish visual, accessibility, scientific-integrity, or journal-submission compliance.",
+ "outputs": [
+  {
+   "format": "tiff",
+   "kind": "raster",
+   "path": "02_Figures/Fig2_PRCC_sensitivity.tiff",
+   "size_bytes": 59868
+  },
+  {
+   "format": "pdf",
+   "kind": "vector-container",
+   "path": "02_Figures/Fig2_PRCC_sensitivity.pdf",
+   "size_bytes": 22869
+  }
+ ],
+ "provenance": {
+  "prcc": {
+   "1/sigma_v": -0.354,
+   "Nv/Nh": 0.954,
+   "b": 0.573,
+   "beta_hv": 0.762,
+   "beta_vh": 0.775,
+   "gamma_h": -0.639,
+   "mu_v": -0.722,
+   "sigma_h": 0.0
+  },
+  "source": "sensitivity.py run(n=2000); seed 20260816"
+ },
+ "schema_version": "1.0",
+ "settings": {
+  "bbox_inches": null,
+  "dpi": 300.0,
+  "facecolor": "white",
+  "figure_size_inches": [
+   3.6220472440944884,
+   3.110236220472441
+  ],
+  "font_mode": "truetype",
+  "formats": [
+   "tiff",
+   "pdf"
+  ],
+  "pad_inches": 0.1,
+  "tiff_rgb": true,
+  "transparent": false
+ },
+ "versions": {
+  "matplotlib": "3.11.1",
+  "pillow": "12.3.0"
+ },
+ "warnings": [
+  "tiff: Matplotlib does not support savefig metadata for this format; metadata remains in the optional manifest."
+ ]
+}

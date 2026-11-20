@@ -1,0 +1,18 @@
+# Reproducibility lock file -- exact versions used to produce the published results.
+# Python 3.13.12 (CPython, macOS arm64) was used for the manuscript run.
+#
+# Install with:
+#     python -m pip install -r requirements.txt
+#
+# Any Python >= 3.9 should work; the versions below are the ones that were
+# actually executed and verified (see tests/test_verification.py).
+
+numpy==2.4.6
+scipy==1.18.0
+matplotlib==3.11.1
+pillow==12.3.0
+
+# Optional: pytest is only needed to run the test suite through pytest.
+# The suite also runs standalone (`python tests/test_verification.py`) and is
+# written so that it does not import pytest at all.
+# pytest>=8.0

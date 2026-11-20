@@ -1,0 +1,54 @@
+{
+ "notice": "Export completed with explicit settings. This report does not establish visual, accessibility, scientific-integrity, or journal-submission compliance.",
+ "outputs": [
+  {
+   "format": "tiff",
+   "kind": "raster",
+   "path": "02_Figures/Fig1_R0_temperature.tiff",
+   "size_bytes": 69196
+  },
+  {
+   "format": "pdf",
+   "kind": "vector-container",
+   "path": "02_Figures/Fig1_R0_temperature.pdf",
+   "size_bytes": 27273
+  }
+ ],
+ "provenance": {
+  "key_values": {
+   "20": 1.102,
+   "25": 2.27,
+   "28": 2.928,
+   "30": 3.262,
+   "32": 3.492
+  },
+  "note": "threshold label right-aligned per author",
+  "params": "baseline_params()",
+  "source": "r0.py r0_temperature_curve; seed 20260816"
+ },
+ "schema_version": "1.0",
+ "settings": {
+  "bbox_inches": null,
+  "dpi": 300.0,
+  "facecolor": "white",
+  "figure_size_inches": [
+   3.6220472440944884,
+   2.8740157480314963
+  ],
+  "font_mode": "truetype",
+  "formats": [
+   "tiff",
+   "pdf"
+  ],
+  "pad_inches": 0.1,
+  "tiff_rgb": true,
+  "transparent": false
+ },
+ "versions": {
+  "matplotlib": "3.11.1",
+  "pillow": "12.3.0"
+ },
+ "warnings": [
+  "tiff: Matplotlib does not support savefig metadata for this format; metadata remains in the optional manifest."
+ ]
+}

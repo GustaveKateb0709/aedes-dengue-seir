@@ -8,6 +8,8 @@ and numerical integration via scipy.integrate.solve_ivp.
 import numpy as np
 from scipy.integrate import solve_ivp
 
+from config import SEED  # noqa: F401  re-exported for sensitivity.py
+
 # ── Constants ────────────────────────────────────────────────────────────────
 
 R_GAS = 1.987  # cal / (K * mol)
@@ -22,7 +24,7 @@ BETA_VH = 0.70
 BETA_HV = 0.60
 MU_V = 1.0 / 12.0
 
-SEED = 20260816
+# SEED is defined in config.py (default 20260816; override with DENGUE_SEED).
 
 
 # ── Temperature-dependent functions ──────────────────────────────────────────

@@ -1,0 +1,52 @@
+{
+ "notice": "Export completed with explicit settings. This report does not establish visual, accessibility, scientific-integrity, or journal-submission compliance.",
+ "outputs": [
+  {
+   "format": "tiff",
+   "kind": "raster",
+   "path": "02_Figures/Fig3_scenario_peaks.tiff",
+   "size_bytes": 97078
+  },
+  {
+   "format": "pdf",
+   "kind": "vector-container",
+   "path": "02_Figures/Fig3_scenario_peaks.pdf",
+   "size_bytes": 21141
+  }
+ ],
+ "provenance": {
+  "peaks": {
+   "Baseline": 1649.8,
+   "Import 4x": 1720.5,
+   "Vector control": 119.5,
+   "Warming +1°C": 1795.7,
+   "Warming +2°C": 1903.9
+  },
+  "source": "scenarios.py run_all_scenarios(); seed 20260816"
+ },
+ "schema_version": "1.0",
+ "settings": {
+  "bbox_inches": null,
+  "dpi": 300.0,
+  "facecolor": "white",
+  "figure_size_inches": [
+   3.7401574803149606,
+   2.834645669291339
+  ],
+  "font_mode": "truetype",
+  "formats": [
+   "tiff",
+   "pdf"
+  ],
+  "pad_inches": 0.1,
+  "tiff_rgb": true,
+  "transparent": false
+ },
+ "versions": {
+  "matplotlib": "3.11.1",
+  "pillow": "12.3.0"
+ },
+ "warnings": [
+  "tiff: Matplotlib does not support savefig metadata for this format; metadata remains in the optional manifest."
+ ]
+}
